@@ -17,6 +17,7 @@ Everything else (formatting, obvious refactors, mechanical renames, generated co
 
 ## Constraints
 
+- **DO NOT push, commit, or run any git write commands** (`git push`, `git commit`, `git add`, `gh pr create`, etc.). Your only output is a draft markdown file in `.pr-drafts/`. The human will copy-paste it into GitHub or ADO themselves. Read-only git commands (`git diff`, `git log`, `git status`) are fine and necessary.
 - DO NOT write to the repo's tracked files. Output goes to `.pr-drafts/<slug>.md` only (this directory is gitignored).
 - DO NOT exceed one page of skim-able prose. Reviewers will not read more.
 - DO NOT include exhaustive file lists, line counts, or "Added X, removed Y" inventories — the diff already says that.

@@ -11,8 +11,13 @@ help: ## Show this help
 
 init: ## First-time setup: bootstrap template, venv, deps, .env, hooks
 	@command -v $(UV) >/dev/null 2>&1 || { echo "Installing uv..."; curl -LsSf https://astral.sh/uv/install.sh | sh; }
+	@if [ ! -d src/_pkg_placeholder ] && ! grep -q '{{PROJECT_SLUG}}' pyproject.toml 2>/dev/null && [ -d $(VENV) ]; then \
+		echo "Already bootstrapped — nothing to do."; \
+		echo "Run 'make install' to sync dependencies, or 'make test' to run tests."; \
+		exit 0; \
+	fi
 	@test -f .env || (test -f .env.example && cp .env.example .env && echo "Created .env from .env.example") || true
-	$(UV) venv --python 3.12 $(VENV)
+	@test -d $(VENV) || $(UV) venv --python 3.12 $(VENV)
 	@if [ -d src/_pkg_placeholder ] || grep -q '{{PROJECT_SLUG}}' pyproject.toml 2>/dev/null; then \
 		$(PY) scripts/bootstrap.py; \
 	fi

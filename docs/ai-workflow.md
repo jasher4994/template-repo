@@ -1,6 +1,6 @@
 # AI workflow ecosystem
 
-> **Status:** experimental. The agents and skills described here have not yet been exercised end-to-end against a real feature. See [docs/verification/dogfooding-log.md](verification/dogfooding-log.md) for evidence as it accumulates.
+> **Status:** mostly verified 2026-05-19 (see [docs/verification/dogfooding-log.md](verification/dogfooding-log.md)). Auto-routing from `description:` is weaker than expected for agents — explicit invocation works reliably, but the default agent rarely hands off to Socrates/Planner without being asked. Plan accordingly.
 
 This repo ships two kinds of Copilot customisation, split by what each one actually needs:
 
@@ -13,10 +13,10 @@ Both surface in the Copilot Chat picker and both auto-route via their `descripti
 
 | Agent              | Status | What it does                                              | Writes to                          |
 |--------------------|--------|-----------------------------------------------------------|------------------------------------|
-| **Planner**        | experimental | Break work into ordered, verifiable steps           | `plans/<slug>.md`                  |
-| **Socrates**       | experimental | Stress-test plans, designs, arguments via probing critique | nothing (read-only)            |
-| **Implementer**    | experimental | Execute a plan step; lint + test; log breadcrumbs as it goes | source + `docs/breadcrumbs/<slug>.md` |
-| **Project Flow**   | experimental | Orchestrate Planner → Socrates → Implementer end-to-end   | `plans/_status.md`, `plans/<slug>-retro.md` |
+| **Planner**        | verified 2026-05-19 | Break work into ordered, verifiable steps  | `plans/<slug>.md`                  |
+| **Socrates**       | verified 2026-05-19 (manual invocation only — description-based routing did not fire) | Stress-test plans, designs, arguments via probing critique | nothing (read-only)            |
+| **Implementer**    | verified 2026-05-19 | Execute a plan step; lint + test; log breadcrumbs as it goes | source + `docs/breadcrumbs/<slug>.md` |
+| **Project Flow**   | verified 2026-05-19 | Orchestrate Planner → Socrates → human approval → Implementer end-to-end   | `plans/_status.md`, `plans/<slug>-retro.md` |
 
 ## Skills (one-shot procedures)
 
@@ -26,8 +26,8 @@ Both surface in the Copilot Chat picker and both auto-route via their `descripti
 | `/architect-diagram`      | experimental | One Mermaid diagram per request                         | `docs/architecture/<slug>.md`      |
 | `/slide-deck`             | experimental | Marp-compatible deck from a brief or source             | `docs/decks/<slug>.md`             |
 | `/visualisation`          | experimental | One chart per request, reproducible                     | `docs/figures/` + `scripts/figures/`|
-| `/experiment-logger`      | experimental | Rigorous write-up of a DS experiment                    | `experiments/<YYYY-MM-DD>-<slug>.md`|
-| `/pr-writeup`             | experimental | Draft a review-focused PR description for AI-heavy diffs | `.pr-drafts/<slug>.md` (gitignored)|
+| `/experiment-logger`      | verified 2026-05-19 (fires from description-based routing) | Rigorous write-up of a DS experiment | `experiments/<YYYY-MM-DD>-<slug>.md`|
+| `/pr-writeup`             | verified 2026-05-19 | Draft a review-focused PR description for AI-heavy diffs | `.pr-drafts/<slug>.md` (gitignored)|
 
 There is also one scoped instruction file: [experiment-reminders.instructions.md](../.github/instructions/experiment-reminders.instructions.md) — applies in `experiments/`, `notebooks/`, and `train*.py` / `eval*.py` files; nudges Copilot to log experiments when training/eval language appears.
 
