@@ -23,8 +23,15 @@ init: ## First-time setup: bootstrap template, venv, deps, .env, hooks
 
 install: ## Install/sync dependencies (assumes venv exists)
 	@command -v $(UV) >/dev/null 2>&1 || { echo "Installing uv..."; curl -LsSf https://astral.sh/uv/install.sh | sh; }
-	@test -d $(VENV) || $(UV) venv --python 3.12 $(VENV)
-	$(UV) pip install -e ".[dev]"
+	@if grep -q '{{PROJECT_SLUG}}' pyproject.toml 2>/dev/null; then \
+		echo ""; \
+		echo "Template not yet bootstrapped — skipping dependency install."; \
+		echo "Run 'make init' to rename placeholders, then dependencies will install."; \
+		echo ""; \
+	else \
+		test -d $(VENV) || $(UV) venv --python 3.12 $(VENV); \
+		$(UV) pip install -e ".[dev]"; \
+	fi
 
 test: ## Run pytest
 	$(PY) -m pytest
