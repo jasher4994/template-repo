@@ -54,5 +54,5 @@ doctor: ## Validate repo conventions (skill names, frontmatter, plan/breadcrumb 
 	@python3 -m pytest -c /dev/null -q tests/test_doctor.py
 
 clean: ## Remove caches, build artefacts, and venv
-	rm -rf $(VENV) .pytest_cache .mypy_cache .ruff_cache .coverage htmlcov dist build *.egg-info
+	rm -rf $(VENV) .pytest_cache .mypy_cache .ruff_cache .coverage htmlcov dist build *.egg-info .bootstrap-backup
 	find . -type d -name __pycache__ -exec rm -rf {} +

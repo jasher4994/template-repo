@@ -4,6 +4,8 @@
 
 ## Quick start
 
+Create a project from this template (GitHub: **"Use this template" → "Create a new repository"**, or clone it directly), then:
+
 ```bash
 make init    # one-time: bootstrap, venv, deps, hooks
 make test    # run pytest
@@ -28,7 +30,7 @@ That's it for the Python project. The rest of this README covers tooling and con
 | Pre-commit     | ruff + mypy + standard hooks                 | [.pre-commit-config.yaml](.pre-commit-config.yaml)                  |
 | Dev container  | Python 3.12 + extensions                     | [.devcontainer/devcontainer.json](.devcontainer/devcontainer.json)  |
 | VS Code        | Format on save, ruff default, pytest wired   | [.vscode/settings.json](.vscode/settings.json)                      |
-| AI workflow    | 4 agents + 6 skills (experimental)           | [docs/ai-workflow.md](docs/ai-workflow.md)                          |
+| AI workflow    | 4 agents + 6 skills (mostly verified)        | [docs/ai-workflow.md](docs/ai-workflow.md)                          |
 
 ## Development commands
 
@@ -90,11 +92,11 @@ scripts/
 
 ## AI workflow (optional)
 
-This template ships an experimental ecosystem of Copilot agents and skills for plan→implement→review workflows, breadcrumbs, architecture diagrams, experiment logging, and PR writeups. **They have not yet been exercised end-to-end against a real feature** — see [docs/verification/](docs/verification/) for status.
+This template ships an ecosystem of Copilot agents and skills for plan→implement→review workflows, breadcrumbs, architecture diagrams, experiment logging, and PR writeups. Most have been dogfooded; four skills are still pending real-session evidence — see [docs/verification/dogfooding-log.md](docs/verification/dogfooding-log.md) for the current status.
 
 Full details in [docs/ai-workflow.md](docs/ai-workflow.md).
 
-If you don't want any of this, delete `.github/agents/`, `.github/skills/`, and `.github/instructions/` — nothing else in the template depends on them.
+If you don't want any of this, delete `.github/agents/`, `.github/skills/`, and `.github/instructions/`, plus `scripts/doctor.py`, `tests/test_doctor.py`, and the `doctor:` target in the [Makefile](Makefile) — nothing else in the template depends on them.
 
 ## Updating the template
 
