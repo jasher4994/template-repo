@@ -10,7 +10,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
-import doctor  # noqa: E402
+import doctor  # noqa: I001  (sys.path mutation must precede import)
 
 
 # --- frontmatter parser -----------------------------------------------------
@@ -63,7 +63,10 @@ def test_parse_simple_frontmatter_strips_matching_quotes_only() -> None:
 def _write_skill(root: Path, dir_name: str, frontmatter: str | None) -> None:
     d = root / ".github" / "skills" / dir_name
     d.mkdir(parents=True)
-    content = f"---\n{frontmatter}\n---\nbody\n" if frontmatter is not None else "body\n"
+    if frontmatter is not None:
+        content = f"---\n{frontmatter}\n---\nbody\n"
+    else:
+        content = "body\n"
     (d / "SKILL.md").write_text(content)
 
 
@@ -127,7 +130,11 @@ def test_check_skills_missing_directory_is_warning(tmp_path: Path) -> None:
 # --- check_agents -----------------------------------------------------------
 
 def test_check_agents_happy(tmp_path: Path) -> None:
-    _write_agent(tmp_path, "p.agent.md", 'description: "a planner"\ntools: [search, edit]')
+    _write_agent(
+        tmp_path,
+        "p.agent.md",
+        'description: "a planner"\ntools: [search, edit]',
+    )
     report = doctor.Report(verbose=False)
     doctor.check_agents(tmp_path, report)
     assert report.errors == []

@@ -95,18 +95,32 @@ def collect_files() -> list[Path]:
 
 
 def parse_args() -> argparse.Namespace:
-    p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument("--non-interactive", action="store_true",
-                   help="Fail rather than prompt for missing values.")
+    p = argparse.ArgumentParser(
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    p.add_argument(
+        "--non-interactive",
+        action="store_true",
+        help="Fail rather than prompt for missing values.",
+    )
     p.add_argument("--project-name")
     p.add_argument("--project-slug")
     p.add_argument("--project-description")
     p.add_argument("--author-name")
     p.add_argument("--author-email")
-    p.add_argument("--template-upstream",
-                   help=f"Upstream template URL (default: {DEFAULT_UPSTREAM}). Ignored if --no-attribution.")
-    p.add_argument("--no-attribution", action="store_true",
-                   help="Strip the upstream-template attribution paragraph from README.")
+    p.add_argument(
+        "--template-upstream",
+        help=(
+            f"Upstream template URL (default: {DEFAULT_UPSTREAM}). "
+            "Ignored if --no-attribution."
+        ),
+    )
+    p.add_argument(
+        "--no-attribution",
+        action="store_true",
+        help="Strip the upstream-template attribution paragraph from README.",
+    )
     return p.parse_args()
 
 
@@ -123,7 +137,9 @@ def resolve_value(name: str, cli_value: str | None, default: str | None,
     return prompt(label, default)
 
 
-def stage_substitutions(values: dict[str, str], strip_attribution: bool) -> dict[Path, str]:
+def stage_substitutions(
+    values: dict[str, str], strip_attribution: bool
+) -> dict[Path, str]:
     """Build the new content for every file in-memory. No writes yet."""
     staged: dict[Path, str] = {}
     for path in collect_files():
@@ -146,8 +162,11 @@ def stage_substitutions(values: dict[str, str], strip_attribution: bool) -> dict
 
 def backup_files(paths: list[Path]) -> None:
     if BACKUP_DIR.exists():
-        print(f"error: {BACKUP_DIR} already exists. Inspect and remove it before re-running.",
-              file=sys.stderr)
+        print(
+            f"error: {BACKUP_DIR} already exists. "
+            "Inspect and remove it before re-running.",
+            file=sys.stderr,
+        )
         sys.exit(1)
     BACKUP_DIR.mkdir()
     for path in paths:
@@ -169,10 +188,13 @@ def restore_from_backup() -> None:
     # If the placeholder dir was renamed before failure, rename it back.
     if not PLACEHOLDER_DIR.exists():
         for candidate in (ROOT / "src").iterdir():
-            if candidate.is_dir() and candidate.name != "_pkg_placeholder":
-                if (candidate / "__init__.py").exists():
-                    candidate.rename(PLACEHOLDER_DIR)
-                    break
+            if (
+                candidate.is_dir()
+                and candidate.name != "_pkg_placeholder"
+                and (candidate / "__init__.py").exists()
+            ):
+                candidate.rename(PLACEHOLDER_DIR)
+                break
 
 
 def main() -> int:
@@ -225,7 +247,11 @@ def main() -> int:
     }
 
     target_dir = ROOT / "src" / project_slug
-    if PLACEHOLDER_DIR.exists() and target_dir.exists() and target_dir != PLACEHOLDER_DIR:
+    if (
+        PLACEHOLDER_DIR.exists()
+        and target_dir.exists()
+        and target_dir != PLACEHOLDER_DIR
+    ):
         print(f"error: target {target_dir} already exists", file=sys.stderr)
         return 1
 
