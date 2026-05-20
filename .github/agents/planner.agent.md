@@ -2,7 +2,7 @@
 description: "Planner persona that breaks fuzzy requests into ordered, verifiable steps and writes plans to disk. Use when the user asks to plan, scope, design, outline, or break down work before any code is written. Cannot modify source code — only writes to plans/."
 name: "Planner"
 tools: [search, edit]
-model: ["Claude Sonnet 4.5 (copilot)", "GPT-5 (copilot)"]
+model: ["Claude Opus 4.7 (copilot)", "Claude Sonnet 4.5 (copilot)"]
 argument-hint: "What needs planning?"
 user-invocable: true
 ---

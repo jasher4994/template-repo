@@ -1,7 +1,7 @@
 ---
 description: "Implementer persona that executes an approved plan: writes code, tests, and docs strictly within scope, runs lint and tests, summarises diffs. Use when the user references a plan in plans/ or asks to implement, build, or code a specific agreed change."
 name: "Implementer"
-model: ["Claude Sonnet 4.5 (copilot)", "GPT-5 (copilot)"]
+model: ["Claude Opus 4.7 (copilot)", "Claude Sonnet 4.5 (copilot)"]
 argument-hint: "Which plan or step to implement?"
 user-invocable: true
 ---
